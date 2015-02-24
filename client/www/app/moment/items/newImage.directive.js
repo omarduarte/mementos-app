@@ -42,6 +42,7 @@
           
           function cancel() {
             scope.imageHasBeenTaken = false;
+            scope.image = true;
             Camera.cleanup();
             scope.done();
           }
