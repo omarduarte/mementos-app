@@ -9,7 +9,8 @@
   function Camera($q) {
     
     var service = {
-      takePhoto: takePhoto
+      takePhoto: takePhoto,
+      cleanup: cleanup
     };
 
     return service;
@@ -36,6 +37,18 @@
 
       return q.promise;
     }
+    
+    function cleanup() {
+      var q = $q.defer();
+      navigator.camera.cleanup(function() {
+        q.resolve();
+      }, function(err) {
+        q.reject(err);
+      });
+
+      return q.promise;
+    }
   }
+
 
 })();
