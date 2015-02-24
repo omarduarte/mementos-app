@@ -1,10 +1,10 @@
-<div ng-if="imageHasBeenTaken" class="card list new-image-container">
+<div ng-show="imageHasBeenTaken" class="card list new-image-container">
   
   <div class="item item-image-wrap header-area">
     <h2>Are you happy with your picture?</h2>
   </div>
   
-  <div class="item image-area" style="display: block">
+  <div class="item item-image-wrap" style="display: block">
       <img ng-src="data:image/jpg;base64,{{image}}"/>
   </div>
 

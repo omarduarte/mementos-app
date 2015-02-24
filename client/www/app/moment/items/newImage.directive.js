@@ -31,6 +31,7 @@
               scope.imageHasBeenTaken = true;              
             })
             .catch(function(err) {
+              console.error(err);
             });
           }
 
