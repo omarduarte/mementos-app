@@ -6,42 +6,34 @@
     .factory('Camera', Camera);
 
   /* @ngInject */
-  function Camera($q) {
+  function Camera($q, $cordovaCamera) {
     
     var service = {
-      takePhoto: takePhoto,
-      cleanup: cleanup
+      takePhoto: takePhoto      
     };
 
     return service;
 
     function takePhoto() {
       var q = $q.defer();
-      var camera = navigator.camera;
+
+      // DOCs about Options
+      // https://github.com/apache/cordova-plugin-camera/blob/master/doc/index.md#cameraoptions   
       var cameraOptions = {
-        destinationType : camera.DestinationType.DATA_URL,
-        sourceType : camera.PictureSourceType.CAMERA,
-        encodingType: camera.EncodingType.JPEG,
+        destinationType : 0,
+        sourceType : 1,
+        encodingType: 0,
         allowEdit : true,
-        quality: 40,
+        quality: 100,
         targetWidth: 640,
         targetHeight: 640,
+        correctOrientation: true,
         saveToPhotoAlbum: false
       };
 
-      camera.getPicture(function(result) {
+      $cordovaCamera.getPicture(cameraOptions)
+      .then(function(result) {
         q.resolve(result);
-      }, function(err) {
-        q.reject(err);
-      }, cameraOptions);
-
-      return q.promise;
-    }
-    
-    function cleanup() {
-      var q = $q.defer();
-      navigator.camera.cleanup(function() {
-        q.resolve();
       }, function(err) {
         q.reject(err);
       });
@@ -49,6 +41,5 @@
       return q.promise;
     }
   }
-
 
 })();
