@@ -6,88 +6,73 @@
     .factory('Audio', Audio);
 
   /* @ngInject */
-  function Audio($q, $cordovaMedia) {
-    
-    // DOCs
-    // http://ngcordova.com/docs/plugins/media/
+  function Audio($q, $cordovaMedia, $filter) {
+        
     var service = {
-      startRecording: startRecording,
-      stopRecording: stopRecording,
-      play: play,
-      pause: pause,
-      stop: stop,
-      getFilePath: getFilePath,
+      getMediaObject: getMediaObject,        
       encodeToM4A: encodeToM4A
     };
 
     return service;
 
+
+    ////////////////////////////////////////////
+
+
     function startRecording() {
       var q = $q.defer();
       
-      getMediaObject()
-      .then(function(recording, filename) {
-        recording.startRecord();        
-        q.resolve(recording, filename);        
-      })
-      .catch(function(err) {
-        q.reject(err);        
-      });
+      var recording = getMediaObject();
+      console.log('###### Media Object Created #######');
+      
+      recording.media.startRecord();        
           
-      return q.promise;
+      return recording;
     }
-
-    function stopRecording(recording) {
-      recording.stopRecord();      
-    }
-
-    function play(filename) {
+    
+    function playFromFile(filename) {
       var q = $q.defer();   
+      var playback;
 
       if(!filename) {
-        return $q.reject('Audio Service Error: No filename selected for playback.');        
+        return console.error('Audio Service Error: No filename selected for playback.');
       }
 
-      getMediaObject(filename)
-      .then(function(playback, filename) {
-        playback.startRecord();        
-        q.resolve(playback, filename);        
-      })
-      .catch(function(err) {
-        q.reject(err);        
-      });
+      playback = getMediaObject(filename);
 
-      return q.promise;
+      playback.media.play();
+
+      return playback;
     }
 
-    function pause(playback) {
-      playback.pause();
-    }
-
-    function stop(playback) {
-      playback.stop();
-    }
-
-    function getMediaObject(filename) {
-      var q = $q.defer();
+    function getMediaObject(filename, done) {
+      var media;
 
       // Create a new Filename if there is none selected
       // i.e. filename playback's will provide the filaname
-      // P.S: iOS only handles .wav files
+      // P.S1: iOS only handles .wav files
+      // P.S2: iOS uses the app's documents:// directory for persistance
       if (!filename) {
-        filename = $filter('date')(new Date(), 'yyyy_MM_dd-HH_mm_ss.sss') + '.wav';    
+        filename = 'documents://' + 
+          $filter('date')(new Date(), 'yyyy_MM_dd-HH_mm_ss-sss') + 
+          '.wav';    
+        console.log('#### Filename: ' + filename + ' created ####');
       }
       
-      var recording = $cordovaMedia.newMedia(filename).then(success, failure);
+      media = new Media(filename, function() {
+          console.log("playAudio(): Audio media/Playback Success");
+          if (done) done.success();
+        },
+        function(err) {
+          console.log("playAudio(): Audio Error: ", err);
+          if (done) done.error();
+        }
+      );
 
-      function success() {
-        q.resolve(recording, filename);        
-      }
-      function failure(err) {
-        q.reject(err);        
-      }
-
-      return q.promise;
+      return {
+        media: media,
+        filename: filename
+      };
     }
 
     // TODO
@@ -95,9 +80,6 @@
 
     }
 
-    function getFilePath(filename) {
-      return 'documents://' + filename;
-    }
   }
 
 })();

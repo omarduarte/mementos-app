@@ -5,11 +5,17 @@
   </div>
   
   <div class="item action" style="display: block">
-    <button class="start-recording button button-clear button-balanced " on-tap="startRecording()">Start Recording</button>
-    <button class="stop-recording button button-clear button-assertive" on-tap="stopRecording()">Stop Recording</button>
-    <button class="playback button button-clear button-assertive" on-tap="play()">Playback</button>
-    <button class="stop-playback button button-clear button-assertive" on-tap="stop()">Stop Playback</button>
-    <button class="cancel button button-clear button-assertive" on-tap="exit()">Cancel</button>
+    <button ng-show="status === 'empty'" class="start-recording ion-mic-c button button-clear button-balanced" on-tap="startRecord()"></button>
+
+    <button ng-show="status === 'recording'" class="stop-recording ion-stop button button-clear button-assertive" on-tap="stopRecord()"></button>
+
+    <button ng-show="status === 'ready'" class="playback ion-play button button-clear button-assertive" on-tap="play()"></button>
+
+    <button ng-show="status === 'playing'" class="stop-playback ion-stop button button-clear button-assertive" on-tap="stop()"></button>
+
+    <button ng-show="status === 'ready'" class="redo ion-refresh button button-clear button-assertive" on-tap="restart()"></button>
+
+    <button class="cancel ion-close button button-clear button-assertive" on-tap="exit()"></button>
   </div>
   
 </div>
