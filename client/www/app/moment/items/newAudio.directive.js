@@ -36,7 +36,6 @@
 
           function activate() {
             console.log('Activating Audio Recording Directive');
-            console.log(vm);
             vm.onAudioDone.success = function() {
               vm.status = 'ready';
               vm.$digest();
@@ -81,17 +80,13 @@
           
 
           function saveAudio() {
-            // Converto to M4A
-            vm.insertIntoMoment({
-              type: 'audio/wav',
-              payload: vm.recording.filename,
-              url: null
-            });
+            // TODO: Converto to M4A
+            vm.insertIntoMoment('audio/wav', vm.recording.filename);
             vm.exit();
           }
 
           function exit() {
-            vm.recording.media.release();
+            vm.recording && vm.recording.media.release();
             vm.recording   = null;
             vm.status = 'empty';
             vm.done();

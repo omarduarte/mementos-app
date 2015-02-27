@@ -34,6 +34,9 @@
               payload: payload,
               url: null
             });
+            console.log('####################');
+            console.log('This is the moment: ');
+            console.log(scope.moment);
           }
 
           function selectType(type) {

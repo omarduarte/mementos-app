@@ -14,7 +14,7 @@
       <div ng-repeat="item in vm.currentMoment.content">
         <show-text  ng-if="item.type === 'text/plain' "></show-text>
         <show-image ng-if="item.type === 'image/jpeg'"></show-image>
-        <show-audio ng-if="item.type === 'audio'"></show-audio>
+        <show-audio ng-if="item.type === 'audio/wav'"></show-audio>
         <show-video ng-if="item.type === 'video'"></show-video>        
       </div>
     </div>

@@ -15,37 +15,9 @@
 
     return service;
 
-
     ////////////////////////////////////////////
 
-
-    function startRecording() {
-      var q = $q.defer();
-      
-      var recording = getMediaObject();
-      console.log('###### Media Object Created #######');
-      
-      recording.media.startRecord();        
-          
-      return recording;
-    }
-    
-    function playFromFile(filename) {
-      var q = $q.defer();   
-      var playback;
-
-      if(!filename) {
-        return console.error('Audio Service Error: No filename selected for playback.');
-      }
-
-      playback = getMediaObject(filename);
-
-      playback.media.play();
-
-      return playback;
-    }
-
-    function getMediaObject(filename, done) {
+    function getMediaObject(filename, onAudioDone) {
       var media;
 
       // Create a new Filename if there is none selected
@@ -61,11 +33,11 @@
       
       media = new Media(filename, function() {
           console.log("playAudio(): Audio media/Playback Success");
-          if (done) done.success();
+          if (onAudioDone) onAudioDone.success();
         },
         function(err) {
           console.log("playAudio(): Audio Error: ", err);
-          if (done) done.error();
+          if (onAudioDone) onAudioDone.error();
         }
       );
 

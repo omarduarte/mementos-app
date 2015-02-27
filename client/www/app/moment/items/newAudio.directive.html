@@ -4,16 +4,20 @@
     <h2>Say something that awesome</h2>
   </div>
   
-  <div class="item action" style="display: block">
-    <button ng-show="status === 'empty'" class="start-recording ion-mic-c button button-clear button-balanced" on-tap="startRecord()"></button>
+  <div class="item action">
+    <button ng-show="status === 'empty'" class="start-recording ion-mic-c button button-large button-clear button-balanced" on-tap="startRecord()"></button>
 
-    <button ng-show="status === 'recording'" class="stop-recording ion-stop button button-clear button-assertive" on-tap="stopRecord()"></button>
+    <button ng-show="status === 'recording'" class="stop-recording ion-stop button button-large button-clear button-assertive" on-tap="stopRecord()"></button>
 
-    <button ng-show="status === 'ready'" class="playback ion-play button button-clear button-assertive" on-tap="play()"></button>
+    <button ng-show="status === 'ready'" class="playback ion-play button button-large button-clear button-balanced" on-tap="play()"></button>
 
-    <button ng-show="status === 'playing'" class="stop-playback ion-stop button button-clear button-assertive" on-tap="stop()"></button>
+    <button ng-show="status === 'playing'" class="stop-playback ion-stop button button-large button-clear button-assertive" on-tap="stop()"></button>
+    
+    <button ng-show="status === 'ready'" class="redo ion-refresh button button-large button-clear button-energized" on-tap="restart()"></button>
+  </div>
 
-    <button ng-show="status === 'ready'" class="redo ion-refresh button button-clear button-assertive" on-tap="restart()"></button>
+  <div class="item">
+    <button ng-show="status === 'ready'" class="save ion-checkmark-round button button-clear button-balanced" on-tap="saveAudio()"></button>
 
     <button class="cancel ion-close button button-clear button-assertive" on-tap="exit()"></button>
   </div>
